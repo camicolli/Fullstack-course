@@ -1,20 +1,9 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
-/*const Filter = ({result, country}) => {
-  const filterbyName = (country) => (
-    country.name.toLowerCase().includes(
-      filter.toLowerCase()
-    )
-  )
-  return (
-    <ul> {results.filter(filterbyName).map(country => <CountryDetails key={country.name} country={country}/>)}
-    </ul> 
-  )
-
-}*/
-const api_key = process.env.REACT_APP_API_KEY
-
+const api_key = process.env.REACT_APP_API_KEY;
+console.log("Moi",api_key,"Moi")
+//const api_key = 'eecaf23dfba8a80fd02ec06032662c45'
 const CountryDetails = ({country}) => {
   return (
     <>
@@ -63,23 +52,25 @@ const Weather = ({capital}) => {
   useEffect(() => {
     console.log('fetching weather report')
     axios
-      .get('https://api.weatherstack.com/current', {params})
+      .get('http://api.weatherstack.com/current', {params})
       .then(response => {
-        console.log(responce.data)
+        console.log(response.data)
         setWeather(response.data)
     }).catch(err => console.log(err))
   }, [])
 
-  /*if(weather) {
+  if(weather !== undefined) {
+    {console.log(weather)}
     return (
       <>
       <h1> Weather in {capital}</h1>
-      <p><b>Temperature: </b>{weather.main.temp} Celsius</p>
-      <p><b>Wind: </b>{weather.wind.speed} <b>Direction: </b>{weather.wind.deg} degrees</p>
+      <p><b>Temperature: </b>{weather.current.temperature} Celsius</p>
+      <img src={weather.current.weather_icons[0]}></img>
+      <p><b>Wind: </b>{weather.current.wind_speed} <b>Direction: </b>{weather.current.wind_degree} degrees</p>
       </>
     )
   }
-  */
+
   return(
     <>
     </>
@@ -108,7 +99,7 @@ const App = ()=> {
       .then(responce => {
         console.log('promise fulfilled')
         setResult(responce.data)
-      })
+      }).catch((error) => console.log(error)) 
   },[])
 
   return (
