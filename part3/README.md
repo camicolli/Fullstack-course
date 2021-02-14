@@ -1,1 +1,1 @@
-Backend running at https://fullstackcourse-phonebookapp.herokuapp.com/api/persons
+Backend running at https://fullstackcourse-phonebookapp.herokuapp.com/
