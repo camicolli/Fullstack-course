@@ -1,0 +1,15 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld2d1eSIsImlkIjoiNjAzMzhjOWViNzViZDAwYzljY2I5YTczIiwiaWF0IjoxNjEzOTkxNTA4LCJleHAiOjE2MTM5OTUxMDh9.v3qb07DqcQAmSjMrqu5W5OduA7zr__Q_luXYYGRnHNQ
+
+{
+    "title": "Titel here", "author": "Rowling","url": "http://something","likes": 6
+}
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer wrongtoken
+
+{
+    "title": "Wrongtoken", "author": "Rowling","url": "http://something","likes": 6
+}
