@@ -1,68 +1,69 @@
-import {newNotification} from './notificationReducer'
+import anecdoteService from '../services/anecdotes'
 
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
-
-const initialState = anecdotesAtStart.map(asObject)
-
-const anecdoteReducer = (state = initialState, action) => {
+const anecdoteReducer = (state = [], action) => {
   //console.log('state now: ', state)
   //console.log('action', action)
 
   switch (action.type) {
+    case 'INIT_ANEC':
+      return action.data
+
     case 'VOTE':
       
-      const anec = state.find(n => n.id === action.data.id)
-      const changedAnec = {
-        ...anec,
-        votes: anec.votes + 1
-      }
+      const changedAnec = action.data.anecdote
+      return state
+      .map(a => a.id !== changedAnec.id ? a : changedAnec)
+      .sort((a1,a2) => a2.votes - a1.votes)
 
-      return state.map(anec => anec.id !== action.data.id ? anec : changedAnec)
     case 'ADD':
-      const newAnec = asObject(action.data.content)
-      console.log('newAnec is',newAnec)
-      return state.concat(newAnec)
+      return state.concat(action.data)
+
     default:
       return state
   }
 }
 
 export const vote = (id) => {
-  console.log('vote called')
-  newNotification('Voted!')
-  return {
-    type: 'VOTE',
-    data: {id}
-  }
+  //console.log('vote called')
+  return async dispatch => {
+    const anec = await anecdoteService.getSingle(id)
 
+    const changedAnec = {
+      ...anec, votes: anec.votes + 1
+    }
+
+    await anecdoteService.update(changedAnec)
+
+    dispatch({
+      type: 'VOTE',
+      data: { anecdote: changedAnec}
+    })
+  }
 }
 
-export const createAnecdote = (content) => {
-  console.log('createAnecdote called')
-  console.log('content is', content)
-  newNotification('Created a new Anecdote')
-  return {
-    type: 'ADD',
-    data: {
-      content
-    }
+//first an asynchronous operation is executed,
+//after which the action changing the state of the store is dispatched.
+export const createAnecdote = (anecdote) => {
+  console.log('createAnecdote called', anecdote)
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(anecdote)
+    dispatch({
+      type: 'ADD',
+      data: newAnecdote
+    })
+  }
+}
+
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    console.log('anecdotes!!!',anecdotes)
+    console.log('anecdote type is', anecdotes===Array)
+    dispatch({
+      type: 'INIT_ANEC',
+      data: anecdotes,
+    })
   }
 }
 
