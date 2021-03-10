@@ -23,6 +23,7 @@ const loginReducer = (state = initialState, action) => {
 export const login = (username, pwd) => {
   return async (dispatch) => {
     const user = await loginService.login({ username, pwd })
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
     dispatch({
       type: 'LOGIN',
       data: user
@@ -31,6 +32,7 @@ export const login = (username, pwd) => {
 }
 
 export const logout = () => {
+  window.localStorage.removeItem('loggedBlogappUser')
   return {
     type: 'LOGOUT'
   }
