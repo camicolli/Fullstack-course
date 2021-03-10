@@ -1,0 +1,21 @@
+PUT http://localhost:3003/api/blogs/602ffba162df92e17812793a
+Content-Type: application/json
+
+{
+    "likes":"5",
+    "title":"Go To Statement Considered updatedblog",
+    "author":"Edsger W. Dijkstra",
+    "url":"http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Consider...",
+    "userId":"602ff7a18b9a2ada942be7c7"
+}
+###
+//Change with invalid id
+PUT http://localhost:3003/api/blogs/602c
+Content-Type: application/json
+
+{
+    "likes":"5",
+    "title":"Go To Statement Considered updatedblog",
+    "author":"Edsger W. Dijkstra",
+    "url":"http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Consider..."
+}
