@@ -20,19 +20,17 @@ const App = () => {
 
   const user = useSelector((state) => state.login)
 
-  useEffect(() => {
+  /*useEffect(() => {
     const loggedUserJSON = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
     if (loggedUserJSON) {
       console.log('loggedUserJSON is', loggedUserJSON)
-      const user = (loggedUserJSON)
-      blogService.setToken(user.token)
+      blogService.setToken(loggedUserJSON.token)
     }
-  }, [])
+  }, [])*/
 
   useEffect(() => {
-    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-    blogService.setToken(user.token)
-
+    const token =user ? user.token: null
+    blogService.setToken(token)
   }, [user])
 
   return (
