@@ -7,12 +7,13 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
-  console.log('came to getAll()')
+  console.log('token getAll is',token)
   const response = await axios.get(baseUrl)
   return response.data
 }
 
 const create = async newObject => {
+  console.log('token create is',token)
   const config = {
     headers: { Authorization: token },
   }
@@ -22,7 +23,7 @@ const create = async newObject => {
 }
 
 const update = async (id, newObject) => {
-  console.log('in update')
+  console.log('token update is',token)
   const config = {
     headers: { Authorization: token },
   }
@@ -30,11 +31,12 @@ const update = async (id, newObject) => {
   return response.data
 }
 
-const remove = async (id, newObject) => {
+const remove = async (id) => {
+  console.log('token remove is',token)
   const config = {
     headers: { Authorization: token },
   }
-  const response = axios.delete(`${baseUrl}/${id}`, newObject, config)
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 
