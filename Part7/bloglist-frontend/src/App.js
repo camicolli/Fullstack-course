@@ -8,6 +8,7 @@ import MainPage from './components/MainPage'
 import LoginPage from './components/LoginPage'
 //Reducers
 import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/userReducer'
 
 
 
@@ -16,6 +17,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   const user = useSelector((state) => state.login)
