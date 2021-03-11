@@ -23,7 +23,7 @@ const blogReducer = (state = [], action ) => {
     return state.filter((blog) => blog.id !== id)
 
   case 'LIKE_BLOG':
-    const likedblogid = action.data
+    const likedblogid = action.data.id
     const likedBlog = state.find((blog) => blog.id === likedblogid)
     const updatedBlog = { ...likedBlog, likes: likedBlog.likes + 1 }
     return state.map((b) => b.id !== likedblogid ? b: updatedBlog)
@@ -36,6 +36,7 @@ const blogReducer = (state = [], action ) => {
 }
 
 export const initializeBlogs = () => {
+  console.log('came to initializeBlogs')
   return async (dispatch) => {
     const blogs = await blogService.getAll()
     dispatch({
