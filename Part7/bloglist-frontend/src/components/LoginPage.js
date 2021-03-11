@@ -13,9 +13,10 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const handleLogin = async (username,pwd) => {
+  const handleLogin = async (username,password) => {
+    console.log('CAME TO HANDLE LOGIN ',username,password)
     try{
-      await dispatch(login(username,pwd))
+      await dispatch(login(username,password))
       history.push('/')
       dispatch(setNotification({ notification:`${username} logged in` }, 5))
 

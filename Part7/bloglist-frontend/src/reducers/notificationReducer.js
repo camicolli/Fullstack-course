@@ -5,7 +5,7 @@ const notificationReducer = (state = { notification: null }, action) => {
 
   switch (action.type) {
   case 'SET_NOTIFICATION':
-    clearTimeout(state.timer)
+    //clearTimeout(state.timer)
     return action.data.message
   case  'REMOVE_NOTIFICATION':
     return { notification: null }

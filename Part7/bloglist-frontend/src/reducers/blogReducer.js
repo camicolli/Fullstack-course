@@ -5,8 +5,8 @@ import blogService from '../services/blogs'
 
 const blogReducer = (state = [], action ) => {
 
-  console.log('blogreducer state is', state)
-  console.log('blogreducer action is ',action)
+  //console.log('blogreducer state is', state)
+  // console.log('blogreducer action is ',action)
 
   switch(action.type) {
 
@@ -15,6 +15,7 @@ const blogReducer = (state = [], action ) => {
 
   case 'CREATE_BLOG':
     //Otherwise copy the previous state but add the new blog
+    console.log('came to create blog')
     return [...state, action.data]
 
   case 'REMOVE_BLOG':
@@ -47,7 +48,7 @@ export const initializeBlogs = () => {
 export const createBlog = (data, user) => {
   return async (dispatch) => {
     const blog = await blogService.create(data)
-    const newBlog = { ...blog, user: { name: user.name } }
+    const newBlog = { ...blog, user: user }
     dispatch({
       type: 'CREATE_BLOG',
       data: newBlog
@@ -55,7 +56,7 @@ export const createBlog = (data, user) => {
   }
 }
 
-export const removeBlod = (id) => {
+export const removeBlog = (id) => {
   return async (dispatch) => {
     await blogService.remove(id)
     dispatch({

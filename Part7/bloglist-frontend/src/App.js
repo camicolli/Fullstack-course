@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Switch, Route, Redirect, Link } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 //Services
 import blogService from './services/blogs'
 //Components
@@ -19,28 +19,20 @@ const App = () => {
   }, [dispatch])
 
   const user = useSelector((state) => state.login)
-
-  /*useEffect(() => {
-    const loggedUserJSON = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
-    if (loggedUserJSON) {
-      console.log('loggedUserJSON is', loggedUserJSON)
-      blogService.setToken(loggedUserJSON.token)
-    }
-  }, [])*/
+  console.log('USERS is',user)
 
   useEffect(() => {
-    const token =user ? user.token: null
+    const token = user ? user.token: null
     blogService.setToken(token)
   }, [user])
 
+
+
   return (
     <div>
-      <Link to='/'>
-        Blog App
-      </Link>
       <Switch>
-        <Route path='/login' exaxt component={LoginPage} />
-        <Route path= '/' render= {() => user ? <MainPage /> : <Redirect to= '/login' />} />
+        <Route path='/login' component={LoginPage} />
+        <Route exact path= '/' render= {() => user ? <MainPage /> : <Redirect to= '/login' />} />
       </Switch>
     </div>
   )
