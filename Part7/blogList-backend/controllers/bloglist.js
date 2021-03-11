@@ -13,6 +13,7 @@ const getTokenFrom = request => {
 }
 
 blogRouter.get('/', async (request, response, next) => {
+    console.log('Get request made')
     try {
       const blogs = await Blog
         .find({}).populate('user', { username: 1, name: 1 })
@@ -71,7 +72,7 @@ blogRouter.post('/', async (request, response, next) => {
 blogRouter.delete('/:id', async (request,response, next) => {
   const token = getTokenFrom(request)
 
-  const decodedToken = jwt.verify(token, config.SECRET)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!request || !decodedToken) {
     return response.status(401).json( { error: 'token missing or invalid ' })
   }
@@ -91,24 +92,28 @@ blogRouter.delete('/:id', async (request,response, next) => {
 }) 
 
 blogRouter.put('/:id', async (request,response, next) => {
-  const body = request.body
-  
-  const user = await User.findById(body.userId)
-  console.log('user is',user)
-  const newBlog = {
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
-    user: user._id
+
+  const token = getTokenFrom(request)
+
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!request || !decodedToken) {
+    return response.status(401).json( { error: 'token missing or invalid ' })
   }
+
+  const b = await Blog.findById(request.params.id)
+  if ( b.user.toString() !== decodedToken.id.toString()) {
+    return response.status(401).json( { error: 'permission denied ' })
+  }
+  console.log('blog found is',b)
+
   try {
     const blog = await Blog.findByIdAndUpdate(
       request.params.id,
-      newBlog,
+      b,
       {new: true,runValidators: true, context: 'query'})
       .populate('user', {username: 1, name: 1})
     response.json(blog)
+    console.log('successfully updated')
   }catch(error){
     next(error)
   }
