@@ -15,7 +15,7 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(initializeBlogs)
+    dispatch(initializeBlogs())
   }, [dispatch])
 
   const user = useSelector((state) => state.login)

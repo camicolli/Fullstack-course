@@ -8,7 +8,7 @@ import Togglable from './Togglable'
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
 //Reducers
-import { createBlog, likeBlog } from '../reducers/blogReducer'
+import { createBlog, likeBlog, removeBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { logout } from '../reducers/loginReducer'
 import Notification from './Notification'
@@ -62,6 +62,13 @@ const MainPage = () => {
     }
   }
 
+  const handleDeleteBlog = async (blog) => {
+    try {
+      dispatch(removeBlog(blog))
+    }catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -73,7 +80,7 @@ const MainPage = () => {
       </Togglable>
       {blogs
         .sort((a,b) => b.likes - a.likes)
-        .map(blog => <Blog key={blog.id} blog={blog} likeBlog={handleLikeBlog}/>)}
+        .map(blog => <Blog key={blog.id} blog={blog} likeBlog={handleLikeBlog} deleteBlog={handleDeleteBlog}/>)}
     </>
   )
 }

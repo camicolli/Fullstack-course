@@ -7,6 +7,7 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
+  console.log('came to getAll()')
   const response = await axios.get(baseUrl)
   return response.data
 }
@@ -21,6 +22,7 @@ const create = async newObject => {
 }
 
 const update = async (id, newObject) => {
+  console.log('in update')
   const config = {
     headers: { Authorization: token },
   }

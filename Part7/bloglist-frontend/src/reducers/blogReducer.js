@@ -5,8 +5,8 @@ import blogService from '../services/blogs'
 
 const blogReducer = (state = [], action ) => {
 
-  //console.log('blogreducer state is', state)
-  // console.log('blogreducer action is ',action)
+  console.log('blogreducer state is', state)
+  console.log('blogreducer action is ',action)
 
   switch(action.type) {
 
@@ -36,11 +36,11 @@ const blogReducer = (state = [], action ) => {
 }
 
 export const initializeBlogs = () => {
-  console.log('came to initializeBlogs')
   return async (dispatch) => {
     const blogs = await blogService.getAll()
+    console.log('initialized blogs are',blogs)
     dispatch({
-      type: 'INITIALIZE_BLOGS',
+      type: 'INITIATE_BLOGS',
       data: blogs
     })
   }
@@ -57,7 +57,8 @@ export const createBlog = (data, user) => {
   }
 }
 
-export const removeBlog = (id) => {
+export const removeBlog = (blog) => {
+  const id = blog.id
   return async (dispatch) => {
     await blogService.remove(id)
     dispatch({
