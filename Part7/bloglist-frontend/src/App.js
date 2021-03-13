@@ -21,7 +21,6 @@ const App = () => {
   }, [dispatch])
 
   const user = useSelector((state) => state.login)
-  console.log('USERS is',user)
 
   useEffect(() => {
     const token = user ? user.token: null

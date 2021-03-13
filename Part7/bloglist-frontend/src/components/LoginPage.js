@@ -21,7 +21,7 @@ const LoginPage = () => {
       dispatch(setNotification({ notification:`${username} logged in` }, 5))
 
     }catch(error){
-      dispatch(setNotification({ error: 'Login failed' }, 5))
+      dispatch(setNotification({ notification: 'Login failed' }, 5))
       console.log(error)
     }
 

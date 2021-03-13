@@ -36,7 +36,7 @@ const MainPage = () => {
     try {
       blogFormRef.current.toggleVisibility()
       if(!newBlog.title || !newBlog.author || !newBlog.url) {
-        dispatch(setNotification({ error: 'You need to fill in all the fields. ' }, 5))
+        dispatch(setNotification({ notification: 'You need to fill in all the fields. ' }, 5))
         return
       }
       console.log('in newBlog and user is',user, newBlog)
@@ -44,36 +44,40 @@ const MainPage = () => {
       dispatch(setNotification({ notification: `Created a new blog titled: ${newBlog.title}` }, 5))
 
     }catch(error){
-      dispatch(setNotification({ error: 'Something went wrong with creating a new blog.' }, 5))
+      dispatch(setNotification({ notification: 'Something went wrong with creating a new blog.' }, 5))
       console.log(error)
     }
   }
 
   const handleLikeBlog = async (blog) => {
-    console.log('trying to like a blog,', blog)
+    //console.log('trying to like a blog,', blog)
     try {
       const updatedBlog = {
         ...blog,
         likes: blog.likes + 1
       }
-      dispatch(likeBlog(updatedBlog.id,updatedBlog))
+      await dispatch(likeBlog(updatedBlog.id,updatedBlog))
+      dispatch(setNotification({ notification: 'Liked blog successfully' }, 5))
     }catch(error) {
       console.log('error in handleLikes',error)
+      dispatch(setNotification({ notification: 'an issue happened and blog was not liked' }, 5))
     }
   }
 
   const handleDeleteBlog = async (blog) => {
     try {
-      dispatch(removeBlog(blog))
+      await dispatch(removeBlog(blog))
+      dispatch(setNotification({ notification: 'Successfully deleted blog' }, 5))
     }catch(error){
       console.log(error)
+      dispatch(setNotification({ notification: 'You cannot remove another user s blog' }, 5))
     }
   }
 
   return (
     <>
-      <Notification />
       <button onClick={handlelogout}>Logout</button>
+      <Notification />
       <h1>Create new blog</h1>
       <Togglable buttonLabel= 'create' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
