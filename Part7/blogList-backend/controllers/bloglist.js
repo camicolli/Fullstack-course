@@ -101,9 +101,9 @@ blogRouter.put('/:id', async (request,response, next) => {
   }
 
   const b = await Blog.findById(request.params.id)
-  if ( b.user.toString() !== decodedToken.id.toString()) {
+  /*if ( b.user.toString() !== decodedToken.id.toString()) {
     return response.status(401).json( { error: 'permission denied ' })
-  }
+  }*/
   console.log('blog found is',b)
 
   try {
